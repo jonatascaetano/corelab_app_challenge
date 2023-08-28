@@ -9,7 +9,7 @@ class SaveRecentlySearchedProductsImp implements SaveRecentlySearchedProducts {
   SaveRecentlySearchedProductsImp(this._saveRecentlySearchedProductsRepository);
 
   @override
-  Future<void> call() async {
-    await _saveRecentlySearchedProductsRepository();
+  Future<void> call({required String query}) async {
+    await _saveRecentlySearchedProductsRepository(query: query);
   }
 }
