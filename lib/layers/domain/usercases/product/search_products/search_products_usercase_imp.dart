@@ -9,7 +9,7 @@ class SearchProductsUsercaseImp implements SearchProductsUsercase {
   SearchProductsUsercaseImp(this._searchProductsRepository);
 
   @override
-  Future<List<ProductEntity>> call() async {
-    return await _searchProductsRepository();
+  Future<List<ProductEntity>> call({required String query}) async {
+    return await _searchProductsRepository(query: query);
   }
 }
