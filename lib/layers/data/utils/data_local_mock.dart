@@ -41,7 +41,11 @@ class DataLocalMock {
     products[4],
   ];
 
-  static List<String> recentlySearchedProducts = [];
+  static List<String> recentlySearchedProducts = [
+    'Anestésicos e Agulhas Gengival',
+    'Biossegurança',
+    'Descartáveis',
+  ];
 
   static List<String> categories = [
     'Anestésicos e Agulhas Gengival',
