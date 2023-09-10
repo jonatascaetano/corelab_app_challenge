@@ -41,7 +41,14 @@ class ProductDatasourceImp implements ProductDatasource {
       const Duration(milliseconds: 500),
     );
     return DataLocalMock.products
-        .where((element) => element.nameModel == query)
+        .where(
+          (element) =>
+              element.nameModel.toLowerCase().contains(query.toLowerCase()) ||
+              element.category.toLowerCase().contains(query.toLowerCase()) ||
+              element.price
+                  .toStringAsFixed(2)
+                  .contains(query.replaceAll(",", ".")),
+        )
         .toList();
   }
 }
