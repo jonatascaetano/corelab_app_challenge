@@ -5,16 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../widgets/result_found.widget.dart';
+import '../widgets/result_not_found_widget.dart';
+
+// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  HomePageController homePageController;
+  HomePage({super.key, required this.homePageController});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late HomePageController homePageController;
-
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -23,32 +26,47 @@ class _HomePageState extends State<HomePage> {
       statusBarIconBrightness: Brightness.light,
       systemStatusBarContrastEnforced: true,
     ));
-    homePageController = Get.put<HomePageController>(HomePageController());
     super.initState();
+  }
+
+  Widget getBody({required HomePageController homePageController}) {
+    List<Widget> bodies = [
+      LastAdsWidget(
+        homePageController: homePageController,
+      ),
+      SearchProductWidget(
+        homePageController: homePageController,
+      ),
+      ResultFound(
+        homePageController: homePageController,
+      ),
+      ResultNotFound(
+        query: homePageController.query.value,
+      ),
+    ];
+    return bodies[homePageController.current.value];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.grey.shade100,
         appBar: AppBar(
           backgroundColor: const Color(0xff00B4CC),
           toolbarHeight: 108 - MediaQuery.of(context).padding.top,
           actions: [
-            Obx(() {
-              final shouldShowArrow = homePageController.showArrow.value;
-              return shouldShowArrow
-                  ? IconButton(
-                      onPressed: () {
-                        homePageController.removeFocus();
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                      ),
-                    )
-                  : Container();
-            }),
+            Obx(() => widget.homePageController.showArrow.value
+                ? IconButton(
+                    onPressed: () {
+                      widget.homePageController.removeFocus();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  )
+                : Container()),
             Expanded(
               child: Container(
                 margin: const EdgeInsets.only(
@@ -63,12 +81,22 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Obx(
                   () => TextField(
-                    onSubmitted: (value) {},
-                    onChanged: (value) {
-                      homePageController.updateQuery(value: value);
+                    onSubmitted: (value) {
+                      widget.homePageController.saveRecentlySearchedProducts(
+                          query: widget
+                              .homePageController.queryController.value.text);
+                      widget.homePageController.searchProducts(
+                          query: widget
+                              .homePageController.queryController.value.text);
                     },
-                    controller: homePageController.queryController.value,
-                    focusNode: homePageController.focusNode,
+                    onTap: () {
+                      widget.homePageController.updateFocus();
+                    },
+                    onChanged: (value) {
+                      widget.homePageController.updateQuery(value: value);
+                    },
+                    controller: widget.homePageController.queryController.value,
+                    focusNode: widget.homePageController.focusNode,
                     style: const TextStyle(
                       decoration: TextDecoration.none,
                       decorationThickness: 0.0000001,
@@ -76,10 +104,15 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.black,
                     ),
                     decoration: InputDecoration(
-                      hintText:
-                          homePageController.showArrow.value ? null : 'Buscar',
-                      hintStyle: TextStyle(color: Colors.grey.shade500),
-                      suffixIcon: homePageController.showArrow.value
+                      hintText: widget.homePageController.showArrow.value
+                          ? null
+                          : 'Buscar',
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 16,
+                      ),
+                      suffixIcon: widget.homePageController.showArrow.value
                           ? null
                           : const Icon(
                               Icons.search,
@@ -92,7 +125,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Obx(
-              () => homePageController.query.value.isEmpty
+              () => widget.homePageController.query.value.isEmpty
                   ? Container()
                   : IconButton(
                       onPressed: () {},
@@ -105,9 +138,11 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Obx(
-          () => homePageController.page.value
-              ? const SearchProductWidget()
-              : const LastAdsWidget(),
-        ));
+          () => getBody(
+            homePageController: widget.homePageController,
+          ),
+        ),
+      ),
+    );
   }
 }
