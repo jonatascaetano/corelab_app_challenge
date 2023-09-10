@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ResultNotFound extends StatefulWidget {
   String query;
   ResultNotFound({super.key, required this.query});

@@ -1,25 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../data/utils/data_local_mock.dart';
 import '../../controllers/home_page_controller.dart';
 
+// ignore: must_be_immutable
 class SearchProductWidget extends StatefulWidget {
-  const SearchProductWidget({super.key});
+  HomePageController homePageController;
+  SearchProductWidget({
+    Key? key,
+    required this.homePageController,
+  }) : super(key: key);
 
   @override
   State<SearchProductWidget> createState() => _SearchProductWidgetState();
 }
 
 class _SearchProductWidgetState extends State<SearchProductWidget> {
-  late HomePageController homePageController;
-
-  @override
-  void initState() {
-    homePageController = Get.find<HomePageController>();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -35,28 +32,36 @@ class _SearchProductWidgetState extends State<SearchProductWidget> {
             ),
           ),
         ),
-        ListView.builder(
+        Obx(
+          () => ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: DataLocalMock.recentlySearchedProducts.length,
+            itemCount: widget.homePageController.search.length,
             itemBuilder: ((context, index) {
               return Padding(
                   padding: EdgeInsets.zero,
-                  //const EdgeInsets.fromLTRB(20, 20, 10, 10),
                   child: ListTile(
                     leading: const Icon(
                       Icons.history_outlined,
                       color: Colors.grey,
                     ),
-                    title: Text(
-                      DataLocalMock.recentlySearchedProducts[index],
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 20,
+                    title: GestureDetector(
+                      onTap: () {
+                        widget.homePageController.updateQueryWithCategory(
+                            value: widget.homePageController.search[index]);
+                      },
+                      child: Text(
+                        widget.homePageController.search[index],
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ));
-            })),
+            }),
+          ),
+        ),
       ],
     );
   }

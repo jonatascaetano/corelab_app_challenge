@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:corelab_app_challenge/layers/domain/entities/product_entity.dart';
 
+// ignore: must_be_immutable
 class ProductWidget extends StatelessWidget {
   ProductEntity productEntity;
   ProductWidget({

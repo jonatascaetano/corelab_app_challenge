@@ -1,10 +1,17 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import '../../../data/utils/data_local_mock.dart';
+import 'package:corelab_app_challenge/layers/presentation/controllers/home_page_controller.dart';
+
 import 'product_widget.dart';
 
+// ignore: must_be_immutable
 class LastAdsWidget extends StatefulWidget {
-  const LastAdsWidget({super.key});
+  HomePageController homePageController;
+  LastAdsWidget({
+    Key? key,
+    required this.homePageController,
+  }) : super(key: key);
 
   @override
   State<LastAdsWidget> createState() => _LastAdsWidgetState();
@@ -47,18 +54,40 @@ class _LastAdsWidgetState extends State<LastAdsWidget> {
         height: 0.5,
         color: Colors.grey.shade300,
       ),
-      ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (context, index) => Divider(
-                height: 0.5,
-                color: Colors.grey.shade300,
-              ),
-          itemCount: DataLocalMock.productsToday.length,
-          itemBuilder: ((context, index) {
-            return ProductWidget(
-                productEntity: DataLocalMock.productsToday[index]);
-          })),
+      FutureBuilder(
+        future: widget.homePageController.getListProductsTodayUsercase(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 400.0,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            case ConnectionState.active:
+            case ConnectionState.done:
+              if (snapshot.hasData) {
+                return ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  separatorBuilder: (context, index) => Divider(
+                    height: 0.5,
+                    color: Colors.grey.shade300,
+                  ),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: ((context, index) {
+                    return ProductWidget(productEntity: snapshot.data![index]);
+                  }),
+                );
+              } else {
+                return Container();
+              }
+          }
+        },
+      ),
       Divider(
         height: 0.5,
         color: Colors.grey.shade300,
@@ -85,18 +114,40 @@ class _LastAdsWidgetState extends State<LastAdsWidget> {
         height: 0.5,
         color: Colors.grey.shade300,
       ),
-      ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (context, index) => Divider(
-                height: 0.5,
-                color: Colors.grey.shade300,
-              ),
-          itemCount: DataLocalMock.productsYesterday.length,
-          itemBuilder: ((context, index) {
-            return ProductWidget(
-                productEntity: DataLocalMock.productsYesterday[index]);
-          }))
+      FutureBuilder(
+        future: widget.homePageController.getListProductsYesterdayUsercase(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 400.0,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            case ConnectionState.active:
+            case ConnectionState.done:
+              if (snapshot.hasData) {
+                return ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  separatorBuilder: (context, index) => Divider(
+                    height: 0.5,
+                    color: Colors.grey.shade300,
+                  ),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: ((context, index) {
+                    return ProductWidget(productEntity: snapshot.data![index]);
+                  }),
+                );
+              } else {
+                return Container();
+              }
+          }
+        },
+      ),
     ]);
   }
 }

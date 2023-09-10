@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/utils/data_local_mock.dart';
+import '../../controllers/home_page_controller.dart';
 import 'product_widget.dart';
 
+// ignore: must_be_immutable
 class ResultFound extends StatefulWidget {
-  const ResultFound({super.key});
+  HomePageController homePageController;
+
+  ResultFound({super.key, required this.homePageController});
 
   @override
   State<ResultFound> createState() => _ResultFoundState();
@@ -17,11 +20,11 @@ class _ResultFoundState extends State<ResultFound> {
       body: ListView(
         shrinkWrap: true,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 20, top: 20),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, top: 20),
             child: Text(
-              '5 resultados encontrados',
-              style: TextStyle(
+              '${widget.homePageController.resultProductsSearch.length} resultados encontrados',
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
                 fontFamily: "DM Sans",
@@ -42,10 +45,11 @@ class _ResultFoundState extends State<ResultFound> {
                     height: 0.5,
                     color: Colors.grey.shade300,
                   ),
-              itemCount: DataLocalMock.productsToday.length,
+              itemCount: widget.homePageController.resultProductsSearch.length,
               itemBuilder: ((context, index) {
                 return ProductWidget(
-                    productEntity: DataLocalMock.productsToday[index]);
+                    productEntity:
+                        widget.homePageController.resultProductsSearch[index]);
               })),
         ],
       ),
