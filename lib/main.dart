@@ -2,13 +2,14 @@ import 'package:corelab_app_challenge/layers/presentation/ui/pages/main_page.dar
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'layers/presentation/ui/widgets/result_found.widget.dart';
-import 'layers/presentation/ui/widgets/result_not_found_widget.dart';
+import 'core/inject/inject.dart';
 
 void main() {
+  Inject.init();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Color(0xff00B4CC),
   ));
+
   runApp(const MyApp());
 }
 
