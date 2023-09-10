@@ -8,28 +8,35 @@ class ProductModel extends ProductEntity {
   String imageUrlModel;
   double priceModel;
   int discountModel;
+  String categoryModel;
+
   ProductModel({
     required this.nameModel,
     required this.imageUrlModel,
     required this.priceModel,
     required this.discountModel,
+    required this.categoryModel,
   }) : super(
-            name: nameModel,
-            imageUrl: imageUrlModel,
-            price: priceModel,
-            discount: discountModel);
+          name: nameModel,
+          imageUrl: imageUrlModel,
+          price: priceModel,
+          discount: discountModel,
+          category: categoryModel,
+        );
 
   ProductModel copyWith({
     String? nameModel,
     String? imageUrlModel,
     double? priceModel,
     int? discountModel,
+    String? categoryModel,
   }) {
     return ProductModel(
       nameModel: nameModel ?? this.nameModel,
       imageUrlModel: imageUrlModel ?? this.imageUrlModel,
       priceModel: priceModel ?? this.priceModel,
       discountModel: discountModel ?? this.discountModel,
+      categoryModel: categoryModel ?? this.categoryModel,
     );
   }
 
@@ -39,6 +46,7 @@ class ProductModel extends ProductEntity {
       'imageUrlModel': imageUrlModel,
       'priceModel': priceModel,
       'discountModel': discountModel,
+      'categoryModel': categoryModel,
     };
   }
 
@@ -48,6 +56,7 @@ class ProductModel extends ProductEntity {
       imageUrlModel: map['imageUrlModel'] as String,
       priceModel: map['priceModel'] as double,
       discountModel: map['discountModel'] as int,
+      categoryModel: map['categoryModel'] as String,
     );
   }
 
@@ -58,7 +67,7 @@ class ProductModel extends ProductEntity {
 
   @override
   String toString() {
-    return 'ProductModel(nameModel: $nameModel, imageUrlModel: $imageUrlModel, priceModel: $priceModel, discountModel: $discountModel)';
+    return 'ProductModel(nameModel: $nameModel, imageUrlModel: $imageUrlModel, priceModel: $priceModel, discountModel: $discountModel, categoryModel: $categoryModel)';
   }
 
   @override
@@ -68,7 +77,8 @@ class ProductModel extends ProductEntity {
     return other.nameModel == nameModel &&
         other.imageUrlModel == imageUrlModel &&
         other.priceModel == priceModel &&
-        other.discountModel == discountModel;
+        other.discountModel == discountModel &&
+        other.categoryModel == categoryModel;
   }
 
   @override
@@ -76,6 +86,7 @@ class ProductModel extends ProductEntity {
     return nameModel.hashCode ^
         imageUrlModel.hashCode ^
         priceModel.hashCode ^
-        discountModel.hashCode;
+        discountModel.hashCode ^
+        categoryModel.hashCode;
   }
 }
