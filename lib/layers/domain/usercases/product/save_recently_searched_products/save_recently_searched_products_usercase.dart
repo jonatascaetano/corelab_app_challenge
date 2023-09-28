@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+
 abstract class SaveRecentlySearchedProductsUsercase {
-  Future<void> call({required String query});
+  Future<Either<Exception, void>> call({required String query});
 }

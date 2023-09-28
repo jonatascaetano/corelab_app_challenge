@@ -1,4 +1,5 @@
 import 'package:corelab_app_challenge/layers/domain/entities/product_entity.dart';
+import 'package:dartz/dartz.dart';
 
 import '../../../domain/repositories/product/get_list_products_yesterday_repository.dart';
 import '../../datasources/product_datasource.dart';
@@ -10,7 +11,7 @@ class GetListProductsYesterdayRepositoryImp
   GetListProductsYesterdayRepositoryImp(this._productDatasource);
 
   @override
-  Future<List<ProductEntity>> call() {
-    return _productDatasource.getListProductsYesterday();
+  Future<Either<Exception, List<ProductEntity>>> call() async {
+    return await _productDatasource.getListProductsYesterday();
   }
 }

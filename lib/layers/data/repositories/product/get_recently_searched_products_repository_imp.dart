@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+
 import '../../../domain/repositories/product/get_recently_searched_products_repository.dart';
 import '../../datasources/product_datasource.dart';
 
@@ -8,7 +10,7 @@ class GetRecentlySearchedProductsRepositoryImp
   GetRecentlySearchedProductsRepositoryImp(this._productDatasource);
 
   @override
-  Future<List<String>> call() {
-    return _productDatasource.getRecentlySearchedProducts();
+  Future<Either<Exception, List<String>>> call() async {
+    return await _productDatasource.getRecentlySearchedProducts();
   }
 }

@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+
 import '../../../domain/repositories/category/get_categories_repository.dart';
 import '../../datasources/category_datasource.dart';
 
@@ -7,7 +9,7 @@ class GetCategoriesRepositoryImp implements GetCategoriesRepository {
   GetCategoriesRepositoryImp(this._categoryDatasource);
 
   @override
-  Future<List<String>> call() {
-    return _categoryDatasource.getCategories();
+  Future<Either<Exception, List<String>>> call() async {
+    return await _categoryDatasource.getCategories();
   }
 }

@@ -55,7 +55,7 @@ class _LastAdsWidgetState extends State<LastAdsWidget> {
         color: Colors.grey.shade300,
       ),
       FutureBuilder(
-        future: widget.homePageController.getListProductsTodayUsercase(),
+        future: widget.homePageController.getListProductsToday(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -115,7 +115,7 @@ class _LastAdsWidgetState extends State<LastAdsWidget> {
         color: Colors.grey.shade300,
       ),
       FutureBuilder(
-        future: widget.homePageController.getListProductsYesterdayUsercase(),
+        future: widget.homePageController.getListProductsYesterday(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:

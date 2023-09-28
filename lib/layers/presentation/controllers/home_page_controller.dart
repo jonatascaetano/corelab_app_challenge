@@ -101,34 +101,59 @@ class HomePageController extends GetxController {
    * */
 
   Future<List<String>> getCategories() async {
-    return await getCategoriesUsercase();
+    var result = await getCategoriesUsercase();
+    return result.fold(
+      (l) => [],
+      (r) => r,
+    );
   }
 
   Future<List<ProductEntity>> getListOfProductsByCategory(
       {required String category}) async {
-    return await getListOfProductsByCategoryUsercase(category: category);
+    var result = await getListOfProductsByCategoryUsercase(category: category);
+    return result.fold(
+      (l) => [],
+      (r) => r,
+    );
   }
 
   Future<List<ProductEntity>> getListProductsToday() async {
-    return await getListProductsTodayUsercase();
+    var result = await getListProductsTodayUsercase();
+    return result.fold(
+      (l) => [],
+      (r) => r,
+    );
   }
 
   Future<List<ProductEntity>> getListProductsYesterday() async {
-    return await getListProductsYesterdayUsercase();
+    var result = await getListProductsYesterdayUsercase();
+
+    return result.fold(
+      (l) => [],
+      (r) => r,
+    );
   }
 
   Future<List<String>> getRecentlySearchedProducts() async {
-    return await getRecentlySearchedProductsUsercase();
+    var result = await getRecentlySearchedProductsUsercase();
+    return result.fold(
+      (l) => [],
+      (r) => r,
+    );
   }
 
   Future<void> saveRecentlySearchedProducts({required String query}) async {
-    await saveRecentlySearchedProductsUsercase(query: query);
+    var result = await saveRecentlySearchedProductsUsercase(query: query);
+    result.fold(
+      (l) => null,
+      (r) => r,
+    );
   }
 
   Future<void> searchProducts({required String query}) async {
     resultProductsSearch.value = [];
     await searchProductsUsercase(query: query).then((value) {
-      resultProductsSearch.addAll(value);
+      value.fold((l) => null, (r) => resultProductsSearch.addAll(r));
     });
     if (resultProductsSearch.isEmpty) {
       current.value = 3;

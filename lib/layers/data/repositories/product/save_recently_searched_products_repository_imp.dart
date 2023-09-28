@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+
 import '../../../domain/repositories/product/save_recently_searched_products_repository.dart';
 import '../../datasources/product_datasource.dart';
 
@@ -8,7 +10,7 @@ class SaveRecentlySearchedProductsRepositoryImp
   SaveRecentlySearchedProductsRepositoryImp(this._productDatasource);
 
   @override
-  Future<void> call({required String query}) {
-    return _productDatasource.saveRecentlySearchedProducts(query: query);
+  Future<Either<Exception, void>> call({required String query}) async {
+    return await _productDatasource.saveRecentlySearchedProducts(query: query);
   }
 }

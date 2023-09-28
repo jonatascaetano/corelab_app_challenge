@@ -1,4 +1,5 @@
 import 'package:corelab_app_challenge/layers/domain/repositories/product/save_recently_searched_products_repository.dart';
+import 'package:dartz/dartz.dart';
 
 import 'save_recently_searched_products_usercase.dart';
 
@@ -11,7 +12,7 @@ class SaveRecentlySearchedProductsUsercaseImp
       this._saveRecentlySearchedProductsRepository);
 
   @override
-  Future<void> call({required String query}) async {
-    await _saveRecentlySearchedProductsRepository(query: query);
+  Future<Either<Exception, void>> call({required String query}) {
+    return _saveRecentlySearchedProductsRepository(query: query);
   }
 }

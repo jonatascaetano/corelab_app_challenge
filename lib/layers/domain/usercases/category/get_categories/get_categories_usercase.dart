@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+
 abstract class GetCategoriesUsercase {
-  Future<List<String>> call();
+  Future<Either<Exception, List<String>>> call();
 }

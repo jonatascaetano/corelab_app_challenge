@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+
 abstract class GetRecentlySearchedProductsUsercase {
-  Future<List<String>> call();
+  Future<Either<Exception, List<String>>> call();
 }
